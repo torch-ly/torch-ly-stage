@@ -1,10 +1,10 @@
 import Konva from "konva";
 import initializeLayers from "./layers/layer-manager";
+import startZoom from "./zoom/zoom"
 
 export let stage: Konva.Stage;
 
 export function initializeStage (torchly: any, container: any) {
-    console.log(1234)
 
     let stageDiv = document.createElement('div');
     stageDiv.setAttribute("id", "stage");
@@ -22,5 +22,6 @@ export function initializeStage (torchly: any, container: any) {
     });
 
     initializeLayers();
+    startZoom();
 
 }

@@ -1,4 +1,6 @@
 {
   "fieldSize": 120,
-  "gridOutsizePercentage": 0.2
+  "gridOutsizePercentage": 0.2,
+  "zoomEnabled": true,
+  "zoomScaleFactor": 0.95
 }
