@@ -1,13 +1,14 @@
 import {layers} from "../layer-manager";
-import Konva from "konva";
 import {stage} from "../../index";
 import {fieldSize, gridOutsizePercentage} from "../../config.json";
+import {Line} from "konva/types/shapes/Line";
+import {Layer} from "konva/types/Layer";
 
 // local reference of the grid layer
-let layer: Konva.Layer;
+let layer: Layer;
 
 // caching a line is more performant than adding new ones each time
-let line = new Konva.Line({
+let line = new Line({
     points: [],
     stroke: "rgba(190,190,190,0.8)",
     dash: [ 2, 10 ],

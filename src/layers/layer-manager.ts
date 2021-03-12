@@ -1,9 +1,9 @@
 import {stage} from "../index";
-import Konva from "konva";
 import drawGrid from "./grid/init";
+import {Layer} from "konva/types/Layer";
 
 export let layers = {
-    grid: new Konva.Layer(),
+    grid: new Layer(),
 };
 
 export default function () {

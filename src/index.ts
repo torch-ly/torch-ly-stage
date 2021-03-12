@@ -1,10 +1,15 @@
-import Konva from "konva";
 import initializeLayers from "./layers/layer-manager";
 import startZoom from "./zoom/zoom"
 
-export let stage: Konva.Stage;
+import {Torchly} from "torch-ly-js-api/dist/src/dataTypes/Torchly";
+import {Stage} from "konva/types/Stage";
 
-export function initializeStage (torchly: any, container: any) {
+export let stage: Stage;
+export let torchly: Torchly;
+
+export function initializeStage (pTorchly: Torchly, container: any) {
+
+    torchly = pTorchly;
 
     let stageDiv = document.createElement('div');
     stageDiv.setAttribute("id", "stage");
@@ -14,7 +19,7 @@ export function initializeStage (torchly: any, container: any) {
     let width = document.getElementById(container)?.offsetWidth;
     let height = document.getElementById(container)?.offsetHeight;
 
-    stage = new Konva.Stage({
+    stage = new Stage({
         container,
         width,
         height,
