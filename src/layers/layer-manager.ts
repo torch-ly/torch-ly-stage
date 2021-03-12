@@ -1,9 +1,11 @@
 import {stage} from "../index";
 import drawGrid from "./grid/init";
-import {Layer} from "konva/types/Layer";
+import drawCharacters from "./character/init";
+import Konva from "konva";
 
 export let layers = {
-    grid: new Layer(),
+    grid: new Konva.Layer(),
+    character: new Konva.Layer(),
 };
 
 export default function () {
@@ -21,4 +23,6 @@ export default function () {
     // ------------------
 
     drawGrid();
+
+    drawCharacters();
 }
