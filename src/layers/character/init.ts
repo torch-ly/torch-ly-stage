@@ -3,6 +3,7 @@ import {layers} from "../layer-manager";
 import {torchly} from "../../index";
 import {Character} from "torch-ly-js-api";
 import {fieldSize} from "../../config.json";
+import {setTransformerNodes} from "../transformer/init";
 
 let layer: Konva.Layer;
 
@@ -11,20 +12,32 @@ let konvaCharacters = <Konva.Image[]>[];
 export default function () {
     layer = layers.character;
 
+    // ------------------
+    // update data of the konva character
+    // ------------------
+
+    // on init
     torchly.characters.array.forEach(updateOrCreateCharacter)
 
+    // on change
     torchly.characters.subscribeChanges(updateOrCreateCharacter);
 }
 
+// updates the data of an existing konva character or creates a new one
 function updateOrCreateCharacter(character: Character) {
-    let oldKonvaCharacter = layer.findOne("#" + character._id);
 
-    if (oldKonvaCharacter) {
+    // get the konva object if it exists already
+    let oldKonvaCharacter = <Konva.Image>layer.findOne("#" + character._id);
 
-        oldKonvaCharacter.setPosition({x: character.pos.point.x, y: character.pos.point.y});
+    if (oldKonvaCharacter) { // character already existed
+
+        let x = (character.pos.point.x * fieldSize) + character.pos.size * fieldSize / 2;
+        let y = (character.pos.point.y * fieldSize) + character.pos.size * fieldSize / 2;
+
+        oldKonvaCharacter.setPosition({x, y});
         oldKonvaCharacter.rotation(character.pos.rot);
 
-    } else {
+    } else { // character dose not exist yet
 
         let imageObj = new Image(character.pos.size * fieldSize, character.pos.size * fieldSize);
 
@@ -34,6 +47,8 @@ function updateOrCreateCharacter(character: Character) {
         // };
 
         imageObj.onload = function () {
+
+            // create new token
             let image = new Konva.Image({
                 x: Math.floor(character.pos.point.x * fieldSize),
                 y: Math.floor(character.pos.point.y * fieldSize),
@@ -57,12 +72,19 @@ function updateOrCreateCharacter(character: Character) {
                 });
             });
 
+            // select token on click and make it draggable
+            image.on("click", (ev) => {
+                ev.cancelBubble = true;
+                setTransformerNodes([image])
+            });
+
             layer.add(image);
             layer.batchDraw();
 
             konvaCharacters.push(image);
         };
 
+        // load image
         imageObj.src = character.token;
     }
 }
