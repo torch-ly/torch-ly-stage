@@ -37,6 +37,8 @@ function updateOrCreateCharacter(character: Character) {
         oldKonvaCharacter.setPosition({x, y});
         oldKonvaCharacter.rotation(character.pos.rot);
 
+        layer.batchDraw();
+
     } else { // character dose not exist yet
 
         let imageObj = new Image(character.pos.size * fieldSize, character.pos.size * fieldSize);
