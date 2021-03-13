@@ -1,4 +1,5 @@
 import Konva from "konva";
+import {manageSelectionRectangleLayer} from "./selection";
 
 // this is the layer on which the transformer acts
 let layer: Konva.Layer;
@@ -21,11 +22,14 @@ export function moveTransformerToLayer(pLayer: Konva.Layer) {
     // update the transformer layer
     layer = pLayer;
 
-    // if the transformer is child of a layer remove it from the laxer
+    // if the transformer is child of a layer remove it from the layer
     if (transformer.getParent())
         transformer.remove();
 
     layer.add(transformer);
+
+    // add selection rectangle and selection listeners
+    manageSelectionRectangleLayer(layer);
 
 }
 
@@ -50,4 +54,8 @@ export function setTransformerNodes(nodes: Konva.Node[]) {
     transformer.nodes(nodes);
 
     layer.batchDraw();
+}
+
+export function getTransformerLayer(): Konva.Layer {
+    return layer;
 }

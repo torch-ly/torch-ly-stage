@@ -1,7 +1,7 @@
 import initializeLayers from "./layers/layer-manager";
 import startZoom from "./zoom/zoom"
 
-import {Character, Torchly} from "torch-ly-js-api";
+import {Torchly} from "torch-ly-js-api";
 import Konva from "konva";
 
 export let stage: Konva.Stage;
@@ -14,7 +14,12 @@ export function initializeStage (pTorchly: Torchly, container: any) {
     let stageDiv = document.createElement('div');
     stageDiv.setAttribute("id", "stage");
 
-    document.getElementById(container)?.appendChild(stageDiv);
+    let containerObject = document.getElementById(container);
+
+    containerObject?.appendChild(stageDiv);
+
+    // prevent right click on the stage
+    containerObject?.addEventListener('contextmenu', event => event.preventDefault());
 
     let width = document.getElementById(container)?.offsetWidth;
     let height = document.getElementById(container)?.offsetHeight;
