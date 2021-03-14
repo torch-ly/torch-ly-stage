@@ -10,7 +10,11 @@ let transformer: Konva.Transformer;
 let transformerNodes = <Konva.Node[]>[];
 
 function createTransformer() {
-    transformer = new Konva.Transformer();
+    transformer = new Konva.Transformer({
+        nodes: [],
+        rotationSnaps: [ 0, 90, 180, 270 ],
+        rotationSnapTolerance: 10
+    });
 }
 
 export function moveTransformerToLayer(pLayer: Konva.Layer) {
