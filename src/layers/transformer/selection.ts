@@ -67,7 +67,7 @@ function createSelectionRectangle() {
         // if the rect is not visible there is no first point
         // then clear selected objects on mouseup
         if (!selectionRect.visible())
-            return setTransformerNodes([]);
+            return;
 
         // get all shapes on the layer that are nether the transformer nor the selection rect
         let shapes = layer.children.toArray().filter((obj) => !(obj instanceof Konva.Transformer) && obj !== selectionRect);
@@ -80,12 +80,16 @@ function createSelectionRectangle() {
             Konva.Util.haveIntersection(box, shape.getClientRect())
         );
 
-        // select all of these shapes
-        setTransformerNodes(selected);
+        // this timeout is ensures that the stage event to clear the transformer gets triggered before this setter
+        // if it is removed, this selection does not work any more
+        setTimeout(() => {
+            // select all of these shapes
+            setTransformerNodes(selected);
 
-        // make the rect invisible again
-        selectionRect.visible(false);
-        layer.batchDraw();
+            // make the rect invisible again
+            selectionRect.visible(false);
+            layer.batchDraw();
+        });
 
     });
 }

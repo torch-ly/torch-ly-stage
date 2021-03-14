@@ -2,7 +2,7 @@ import {stage} from "../index";
 import drawGrid from "./grid/init";
 import drawCharacters from "./character/init";
 import Konva from "konva";
-import {moveTransformerToLayer} from "./transformer/init";
+import {moveTransformerToLayer, setTransformerNodes} from "./transformer/init";
 
 export let layers = {
     grid: new Konva.Layer(),
@@ -29,5 +29,8 @@ export default function () {
 
     // default layer for transformer is temporary the character layer
     moveTransformerToLayer(layers.character);
+
+    // unselect all objects when clicked on stage
+    stage.on("click", () => setTransformerNodes([]));
 
 }
