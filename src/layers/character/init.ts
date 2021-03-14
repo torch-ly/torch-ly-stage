@@ -31,11 +31,25 @@ function updateOrCreateCharacter(character: Character) {
 
     if (oldKonvaCharacter) { // character already existed
 
-        let x = (character.pos.point.x * fieldSize) + character.pos.size * fieldSize / 2;
-        let y = (character.pos.point.y * fieldSize) + character.pos.size * fieldSize / 2;
+        // reset previous transformation to make calculations more easy
+        oldKonvaCharacter.setAttrs({
+            rotation: 0,
+            offsetX: 0,
+            offsetY: 0,
+            scaleX: 1,
+            scaleY: 1
+        });
 
-        oldKonvaCharacter.setPosition({x, y});
-        oldKonvaCharacter.rotation(character.pos.rot);
+        // set new properties
+        oldKonvaCharacter.setAttrs({
+            x: (character.pos.point.x * fieldSize) + character.pos.size * fieldSize / 2,
+            y: (character.pos.point.y * fieldSize) + character.pos.size * fieldSize / 2,
+            width: character.pos.size * fieldSize,
+            height: character.pos.size * fieldSize,
+            offsetX: character.pos.size * fieldSize / 2,
+            offsetY: character.pos.size * fieldSize / 2,
+            rotation: character.pos.rot,
+        });
 
         layer.batchDraw();
 
@@ -78,6 +92,16 @@ function updateOrCreateCharacter(character: Character) {
             image.on("click", (ev) => {
                 ev.cancelBubble = true;
                 setTransformerNodes([image])
+            });
+
+            image.on("transformend", () => {
+                let pastRot = image.rotation();
+                image.rotation(0);
+
+                let width = image.width() * image.getTransform().getMatrix()[0];
+
+                if (character.pos.rot !== pastRot || character.pos.size !== width)
+                    character.setAttrs(pastRot, Math.round(width / fieldSize));
             });
 
             layer.add(image);
