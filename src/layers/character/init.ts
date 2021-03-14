@@ -95,11 +95,15 @@ function updateOrCreateCharacter(character: Character) {
             });
 
             image.on("transformend", () => {
+
+                // this makes the following calculation of the width much more easy
                 let pastRot = image.rotation();
                 image.rotation(0);
 
+                // save the current width of the character
                 let width = image.width() * image.getTransform().getMatrix()[0];
 
+                // only update rotation or size when the rely changed
                 if (character.pos.rot !== pastRot || character.pos.size !== width)
                     character.setAttrs(pastRot, Math.round(width / fieldSize));
             });
