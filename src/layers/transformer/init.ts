@@ -59,7 +59,3 @@ export function setTransformerNodes(nodes: Konva.Node[]) {
 
     layer.batchDraw();
 }
-
-export function getTransformerLayer(): Konva.Layer {
-    return layer;
-}
