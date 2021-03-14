@@ -3,6 +3,7 @@ import startZoom from "./zoom/zoom"
 
 import {Torchly} from "torch-ly-js-api";
 import Konva from "konva";
+import {updateGrid} from "./layers/grid/init";
 
 export let stage: Konva.Stage;
 export let torchly: Torchly;
@@ -47,6 +48,13 @@ export function initializeStage (pTorchly: Torchly, container: any) {
         conditions: [],
         token: "https://5e.tools/img/MM/Adult%20Gold%20Dragon.png?v=1.123.0"
     }))*/
+
+    window.addEventListener("resize", () => {
+        stage.width(window.innerWidth);
+        stage.height(window.innerHeight);
+        updateGrid();
+        stage.batchDraw();
+    });
 
     console.log(torchly)
 
