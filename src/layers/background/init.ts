@@ -11,28 +11,35 @@ let layer: Konva.Layer;
 export default function () {
     layer = layers.background;
 
+    // initial creation of konva objects
     torchly.background.array.forEach((obj) => updateOrCreateBackgroundObject(obj));
 
+    // update konva objects on change
     torchly.background.subscribeChanges((obj: Background) => updateOrCreateBackgroundObject(obj));
 }
 
 function updateOrCreateBackgroundObject(object: Background) {
+
+    // background objects can have different types and therefore different creation methods
     if (object.type === "image")
         updateOrCreateBackgroundImage(<TImage>object);
 }
 
 function updateOrCreateBackgroundImage(image: TImage) {
 
+    // find old image if it exists
     let oldKonvaImage = <Konva.Image>layer.findOne("#" + image._id);
 
-    if (oldKonvaImage) {
+    if (oldKonvaImage) { // update existing character
 
+        // reset transformations to make updating attributes more easy
         oldKonvaImage.setAttrs({
             rotation: 0,
             scaleX: 1,
             scaleY: 1
         });
 
+        // update attributes
         oldKonvaImage.setAttrs({
             x: image.point.x * fieldSize,
             y: image.point.y * fieldSize,
@@ -43,7 +50,7 @@ function updateOrCreateBackgroundImage(image: TImage) {
 
         layer.batchDraw();
 
-    } else {
+    } else { // create new konva character
 
         let imageObj = new Image(image.width, image.height);
 
@@ -61,12 +68,17 @@ function updateOrCreateBackgroundImage(image: TImage) {
             layer.add(konvaObject);
             layer.batchDraw();
 
+            // manage transformer on click
             konvaObject.on("click", (ev) => {
+
+                // if the current layer is not this layer do not activate the transformer
                 if (currentLayer !== backgroundLayer) return;
+
                 ev.cancelBubble = true;
                 setTransformerNodes([konvaObject]);
             });
 
+            // update image position when dropped
             konvaObject.on("dragend", () => {
                 image.setPosition({
                     x: Math.round(konvaObject.x() / fieldSize),
@@ -74,13 +86,14 @@ function updateOrCreateBackgroundImage(image: TImage) {
                 });
             });
 
+            // update object when rotated or resized
             konvaObject.on("transformend", () => {
 
                 // this makes the following calculation of the width much more easy
                 let pastRot = konvaObject.rotation();
                 konvaObject.rotation(0);
 
-                // save the current width of the character
+                // save the current width and of the object
                 let width = konvaObject.width() * konvaObject.getTransform().getMatrix()[0];
                 let height = konvaObject.height() * konvaObject.getTransform().getMatrix()[3];
 
