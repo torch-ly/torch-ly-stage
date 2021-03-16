@@ -1,5 +1,5 @@
 import {stage} from "../index";
-import {zoomEnabled, zoomScaleFactor} from "../config.json"
+import {zoomEnabled, zoomScaleFactor} from "../config/config.json"
 import {getCenter, getDistance, setZoomFactor} from "./functions";
 
 export default function () {
