@@ -1,6 +1,6 @@
 import {layers} from "../layer-manager";
 import {stage} from "../../index";
-import {fieldSize, gridOutsizePercentage} from "../../config.json";
+import {fieldSize, gridOutsizePercentage} from "../../config/config.json";
 import Konva from "konva";
 
 // local reference of the grid layer

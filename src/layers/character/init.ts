@@ -2,7 +2,8 @@ import Konva from "konva";
 import {layers} from "../layer-manager";
 import {torchly} from "../../index";
 import {Character} from "torch-ly-js-api";
-import {fieldSize} from "../../config.json";
+import {fieldSize, layer as currentLayer} from "../../config/config.json";
+import {character as characterLayer} from "../../config/layer.json";
 import {setTransformerNodes} from "../transformer/init";
 
 let layer: Konva.Layer;
@@ -90,8 +91,9 @@ function updateOrCreateCharacter(character: Character) {
 
             // select token on click and make it draggable
             image.on("click", (ev) => {
+                if (currentLayer !== characterLayer) return;
                 ev.cancelBubble = true;
-                setTransformerNodes([image])
+                setTransformerNodes([image]);
             });
 
             image.on("transformend", () => {
