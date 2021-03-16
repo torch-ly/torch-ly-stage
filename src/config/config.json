@@ -2,5 +2,6 @@
   "fieldSize": 120,
   "gridOutsizePercentage": 0.2,
   "zoomEnabled": true,
-  "zoomScaleFactor": 0.95
+  "zoomScaleFactor": 0.95,
+  "layer": "CHARACTER_LAYER"
 }
