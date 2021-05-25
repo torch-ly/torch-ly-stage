@@ -6,11 +6,11 @@
     "serve": "vue-cli-service serve"
   },
   "dependencies": {
-    "torch-ly-js-api": "^0.7.3",
+    "torch-ly-js-api": "^0.9.0",
     "vue": "^2.6.11"
   },
   "devDependencies": {
-    "@vue/cli-service": "~4.5.0",
+    "@vue/cli-service": "^3.0.5",
     "vue-template-compiler": "^2.6.11"
   },
   "browserslist": [

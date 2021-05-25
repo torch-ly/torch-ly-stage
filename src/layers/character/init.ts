@@ -18,10 +18,16 @@ export default function () {
     // ------------------
 
     // on init
-    torchly.characters.array.forEach(updateOrCreateCharacter)
+    torchly.characters.array.forEach((char) => {
+        updateOrCreateCharacter(char);
+        char.on("change", updateOrCreateCharacter);
+    });
 
-    // on change
-    torchly.characters.subscribeChanges(updateOrCreateCharacter);
+    torchly.characters.on("create", (character: Character) => {
+        updateOrCreateCharacter(character);
+        character.on("change", updateOrCreateCharacter);
+    });
+
 }
 
 // updates the data of an existing konva character or creates a new one

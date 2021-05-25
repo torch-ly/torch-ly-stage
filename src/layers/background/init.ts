@@ -12,10 +12,16 @@ export default function () {
     layer = layers.background;
 
     // initial creation of konva objects
-    torchly.background.array.forEach((obj) => updateOrCreateBackgroundObject(obj));
+    torchly.background.array.forEach((obj) => {
+        updateOrCreateBackgroundObject(obj);
+        obj.on("change", updateOrCreateBackgroundObject);
+    });
 
     // update konva objects on change
-    torchly.background.subscribeChanges((obj: Background) => updateOrCreateBackgroundObject(obj));
+    torchly.background.on("create", (obj: Background) => {
+        updateOrCreateBackgroundObject(obj)
+        obj.on("change", updateOrCreateBackgroundObject);
+    });
 }
 
 function updateOrCreateBackgroundObject(object: Background) {
