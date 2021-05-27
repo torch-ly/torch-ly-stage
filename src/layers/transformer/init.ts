@@ -7,7 +7,7 @@ let layer: Konva.Layer;
 let transformer: Konva.Transformer;
 
 // this contains the currently selected nodes
-let transformerNodes = <Konva.Node[]>[];
+export let transformerNodes = <Konva.Node[]>[];
 
 function createTransformer() {
     transformer = new Konva.Transformer({

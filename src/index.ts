@@ -4,6 +4,7 @@ import startZoom from "./zoom/zoom"
 import {Torchly} from "torch-ly-js-api";
 import Konva from "konva";
 import {updateGrid} from "./layers/grid/init";
+import {keyevent} from "./keyevents";
 
 export let stage: Konva.Stage;
 export let torchly: Torchly;
@@ -17,13 +18,18 @@ export function initializeStage (pTorchly: Torchly, container: any) {
 
     let containerObject = document.getElementById(container);
 
-    containerObject?.appendChild(stageDiv);
+    if (!containerObject) return;
+
+    containerObject.appendChild(stageDiv);
 
     // prevent right click on the stage
-    containerObject?.addEventListener('contextmenu', event => event.preventDefault());
+    containerObject.addEventListener('contextmenu', event => event.preventDefault());
 
-    let width = document.getElementById(container)?.offsetWidth;
-    let height = document.getElementById(container)?.offsetHeight;
+    containerObject.tabIndex = 1;
+    containerObject.addEventListener("keydown", keyevent);
+
+    let width = containerObject.offsetWidth;
+    let height = containerObject.offsetHeight;
 
     stage = new Konva.Stage({
         container,
